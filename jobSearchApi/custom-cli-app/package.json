@@ -1,0 +1,16 @@
+{
+  "name": "custom-cli-app",
+  "version": "1.0.0",
+  "description": "\"app that allows a user to search for a job\"",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Rafael Mendoza",
+  "license": "ISC",
+  "dependencies": {
+    "custom-module": "file:../custom-module",
+    "inquirer": "^7.1.0",
+    "yargs": "^15.3.1"
+  }
+}
