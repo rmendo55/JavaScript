@@ -3,6 +3,10 @@ let DetectLanguage = require('detectlanguage');
 
 let detectLanguage = new DetectLanguage('38b946014b1f095853bff0e67a9f347b');
 
+/*
+detectTextLanguase method will return two things from every entry of a map. The detected language and a value determining
+if the language is reliable
+*/
 const detectTextLanguage = (text) => {
     return new Promise((resolve, reject) => {
         detectLanguage.languages().then((result) => {
