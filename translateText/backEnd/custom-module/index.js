@@ -1,5 +1,6 @@
 //my api key: 38b946014b1f095853bff0e67a9f347b
 let DetectLanguage = require('detectlanguage');
+let translate = require('translate');
 
 let detectLanguage = new DetectLanguage('38b946014b1f095853bff0e67a9f347b');
 
