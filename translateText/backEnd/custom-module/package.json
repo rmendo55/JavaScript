@@ -8,5 +8,7 @@
   },
   "author": "Rafael Mendoza",
   "license": "ISC",
-  "dependencies": {}
+  "dependencies": {
+    "translate-api": "^0.3.18"
+  }
 }
