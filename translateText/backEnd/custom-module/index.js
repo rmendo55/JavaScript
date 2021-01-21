@@ -24,7 +24,7 @@ const detectTextLanguage = (text) => {
                     result.forEach(element => {
                         element.forEach(current => {
                             let code = codeMap.get(current.language);
-                            languagesDetected.set(code, {isReliable: `${current.isReliable}`});
+                            languagesDetected.set(code, {isReliable: `${current.isReliable}`, code: `${current.language}`});
                         });
                     });
                     resolve(languagesDetected);
@@ -46,4 +46,12 @@ detectTextLanguage(text).then((message) => {
     console.log(message);
 }).catch((err) => {
     console.log(`err: ${err}`)
+});
+
+/*
+Method to tranlate text to another language
+*/
+
+const translate = ((text, language) => {
+
 });
