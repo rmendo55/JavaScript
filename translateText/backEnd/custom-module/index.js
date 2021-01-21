@@ -20,7 +20,7 @@ const getDetections = (shortPhrase, longPhrase) => {
                 }
             });
             if (codeMap.size === 0) {
-                reject('err');
+                reject('error');
             }
             else {
                 resolve(codeMap);
@@ -52,9 +52,18 @@ const detectTextLanguage = (text, shortPhrase, longPhrase) => {
                 });
             }    
         }).catch((err) => {
-            console.log(err);
+            console.log(`error: ${err}`);
         }) ;
     });
 };
+
+const results = new Map();
+detectTextLanguage(['Hello', 'World'], true, false).then((message) =>{
+    let languageDetected = [...message][0][0].name;
+    console.log(languageDetected);
+}).catch((err) => {
+    console.log(`error: ${err}`)
+});
+
 
 
