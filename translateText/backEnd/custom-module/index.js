@@ -1,18 +1,23 @@
 //my api key: 38b946014b1f095853bff0e67a9f347b
 let DetectLanguage = require('detectlanguage');
-let translate = require('translate');
 
 let detectLanguage = new DetectLanguage('38b946014b1f095853bff0e67a9f347b');
 
 /*
 Method to return list of detections 
+Method will have two parameter of boolean type. Determing if key will short phrase or actual word of the language
 */
-const getDetections = () => {
+const getDetections = (shortPhrase, longPhrase) => {
     return new Promise((resolve, reject) => {
         let codeMap = new Map();
         detectLanguage.languages().then((result) => {
             result.forEach(element => {
-                codeMap.set(`${element.code}`, {language: `${element.name}`});
+                if (shortPhrase) {
+                    codeMap.set(`${element.code}`, {name: `${element.name}`});
+                }
+                else if (longPhrase) {
+                    codeMap.set(`${element.name}`, {code: `${element.code}`});
+                }
             });
             if (codeMap.size === 0) {
                 reject('err');
@@ -28,9 +33,9 @@ const getDetections = () => {
 detectTextLanguase method will return two things from every entry of a map. The detected language and a value determining
 if the language is reliable
 */
-const detectTextLanguage = (text) => {
+const detectTextLanguage = (text, shortPhrase, longPhrase) => {
     return new Promise((resolve, reject) => {
-        getDetections().then((result) => {
+        getDetections(shortPhrase, longPhrase).then((result) => {
         let codeMap = result;
         if (codeMap.size === 0) {
             reject('err');
@@ -60,16 +65,45 @@ a request for each text individually
 
 //Sample Run
 let text = ['My', 'name', 'is', 'Rafael', 'Mendoza'];
-detectTextLanguage(text).then((message) => {
-    console.log(message);
-}).catch((err) => {
-    console.log(`err: ${err}`)
-});
 
 /*
 Method to tranlate text to another language
 */
-
-const translate = ((text, language) => {
-
+const translateText = ((text, language) => {
+    let stringTxt = convertToString(text);
+    getDetections(false, true).then((result) => {
+        let codeMap = result;
+        if (codeMap.size === 0) {
+            reject('err');
+        } else {
+            let toLanguage = codeMap.get(language).code; 
+            //translate 
+            detectTextLanguage(text, true, false).then((message) => {
+            let fromLanguage = [...message][0][1].code;
+            translate(text, {from: fromLanguage, to: toLanguage}).then(text => {
+                console.log(text);
+            });
+            }).catch((err) => {
+            console.log(`err: ${err}`)
+            });
+        }
+        }).catch((err) => {
+            console.log(err);
+        }) ;
 });
+
+//method to convert text array to a single string
+const convertToString = (textArr) => {
+    let stringText = '';
+    textArr.forEach((element,index) => {
+        if (!(index + 1 === text.size)) {
+            stringText += element + ' ';
+        }
+        else {
+            stringText += element;
+        }
+    });
+    return stringText;
+};
+
+translateText(text, 'SPANISH');
