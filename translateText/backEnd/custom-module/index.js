@@ -1,8 +1,8 @@
 //my api key: 38b946014b1f095853bff0e67a9f347b
-let DetectLanguage = require('detectlanguage');
+const DetectLanguage = require('detectlanguage');
 
-let detectLanguage = new DetectLanguage('38b946014b1f095853bff0e67a9f347b');
-
+const detectLanguage = new DetectLanguage('38b946014b1f095853bff0e67a9f347b');
+const translate = require('translate-api');
 /*
 Method to return list of detections 
 Method will have two parameter of boolean type. Determing if key will short phrase or actual word of the language
