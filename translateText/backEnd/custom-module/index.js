@@ -2,7 +2,10 @@
 const DetectLanguage = require('detectlanguage');
 
 const detectLanguage = new DetectLanguage('38b946014b1f095853bff0e67a9f347b');
-const translate = require('translate-api');
+const projectId = 'need-translation';
+const {Translate} = require('@google-cloud/translate').v2;
+require('dotenv').config();
+const CREDENTIALS = JSON.parse(process.env.CREDENTIALS);
 /*
 Method to return list of detections 
 Method will have two parameter of boolean type. Determing if key will short phrase or actual word of the language
@@ -58,12 +61,36 @@ const detectTextLanguage = (text, shortPhrase, longPhrase) => {
 };
 
 const results = new Map();
-detectTextLanguage(['Hello', 'World'], true, false).then((message) =>{
+//testing
+let transText = ['My', 'name', 'is', 'Rafael', 'Mendoza'];
+detectTextLanguage(transText, true, false).then((message) =>{
     let languageDetected = [...message][0][0].name;
     console.log(languageDetected);
 }).catch((err) => {
     console.log(`error: ${err}`)
 });
 
+//Instantiate a client with credentials
+const translate = new Translate({credentials: CREDENTIALS, projectId: CREDENTIALS.project_id});
 
 
+//sample run to translate text
+const quickStart = async () => {
+    //text to translate
+    const text = 'Hello World';
+    
+    //the target language
+    const target = 'es';
+
+    //Translate text to spanish
+    try {
+        const [translation] = await translate.translate(text,target);
+        console.log(`Text: ${text}`);
+        console.log(`Translation: ${translation}`);
+    } catch(err) {
+        console.log(`err: ${err}`);
+    }
+    
+} ;
+
+quickStart();
