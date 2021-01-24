@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Search App</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+</head>
+
+<body>
+    <div id="openSkillsApi" v-cloak>
+        <div class="jumbotron text-center" style="height: max-conten">
+            <h1>Job Search</h1>
+            <h4>Open Skills API</h4>
+            <div>
+                <div v-cloak class="container">
+                    <div class="row">
+                        <div class="col" v-if="!searched">
+                            <input type="text" class="form-control" placeholder="Enter Job Type"
+                                v-model="enteredKeyword" />
+                                <br>
+                            <button @click="search" class="btn btn-primary">Search</button>
+                        </div>
+                        <div v-if="jobEntered" class="col">
+                            <div class="list-group">
+                                <h3>Search Results: {{ jobList.length }}</h3>
+                                <ul class="list-group">
+                                    <li class="list-group-item" v-for="job in jobList">
+                                        <a href="#" @click="post(job.id, job.title, job.keyword)">{{ job.title }}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div v-if="!jobEntered && searched">
+                            <div class="col">
+                                <img v-bind:src="imageLink" width="50%">
+                            </div>
+                            <div class="col"><button @click="reset" class="btn btn-primary">
+                                    SEARCH AGAIN
+                                </button>
+                            </div>
+                            <div class="col">
+                                <h3>Related Jobs to: {{ relatedJob }}</h3>
+                                <ul class="list-group">
+                                    <li class="list-group-item" v-for="job in jobList">
+                                        {{ job.title }}
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <tracker-component v-bind:history="history"></tracker-component>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script type="text/javascript" src="app.js"></script>
+</body>
+
+</html>
